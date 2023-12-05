@@ -39,7 +39,7 @@ class QRGenerator extends BaseController
 
       $this->writer = new PngWriter();
 
-      $this->labelFont = new Font($this->relativePath . 'assets/fonts/Roboto-Medium.ttf', 14);
+      $this->labelFont = new Font($this->relativePath . 'public/assets/fonts/Roboto-Medium.ttf', 14);
 
       $this->foregroundColor = new Color(44, 73, 162);
       $this->foregroundColor2 = new Color(28, 101, 90);
