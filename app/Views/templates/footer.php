@@ -3,7 +3,7 @@
       <nav class="float-left">
          <ul>
             <li>
-               <a href="https://www.instagram.com/yaelataa/">
+               <a href="https://www.instagram.com/ikhsan3adi/">
                   Instagram
                </a>
             </li>

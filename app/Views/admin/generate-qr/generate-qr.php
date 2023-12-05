@@ -138,7 +138,7 @@
          echo "{
                   'nama' : '$value[nama_guru]',
                   'unique_code' : '$value[unique_code]',
-                  'nomor' :'$value[nuptk]'
+                  'nomor' : '$value[nuptk]'
                },";
       }; ?>
    ];
@@ -149,7 +149,7 @@
                   'nama' : '$value[nama_siswa]',
                   'unique_code' : '$value[unique_code]',
                   'kelas' : '$value[kelas] $value[jurusan]',
-                  'nomor' :'$value[nis]'
+                  'nomor' : '$value[nis]'
                },";
       }; ?>
    ];
@@ -167,7 +167,7 @@
 
       dataSiswa.forEach(element => {
          jQuery.ajax({
-            url: "<?= base_url(); ?>admin/generate/siswa",
+            url: "<?= base_url('admin/generate/siswa'); ?>",
             type: 'post',
             data: {
                nama: element['nama'],
@@ -206,7 +206,7 @@
       kelas = $('#idKelas' + idKelas).html();
 
       jQuery.ajax({
-         url: "<?= base_url(); ?>admin/generate/siswa-by-kelas",
+         url: "<?= base_url('admin/generate/siswa-by-kelas'); ?>",
          type: 'post',
          data: {
             idKelas: idKelas
@@ -234,7 +234,7 @@
 
             dataSiswaPerKelas.forEach(element => {
                jQuery.ajax({
-                  url: "<?= base_url(); ?>admin/generate/siswa",
+                  url: "<?= base_url('admin/generate/siswa'); ?>",
                   type: 'post',
                   data: {
                      nama: element['nama_siswa'],
@@ -275,7 +275,7 @@
 
       dataGuru.forEach(element => {
          jQuery.ajax({
-            url: "<?= base_url(); ?>admin/generate/guru",
+            url: "<?= base_url('admin/generate/guru'); ?>",
             type: 'post',
             data: {
                nama: element['nama'],
