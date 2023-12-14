@@ -81,7 +81,37 @@ class QRGenerator extends BaseController
          nomor: $this->request->getVar('nomor')
       );
 
-      return $this->response->setJSON(true);
+      return $this->response->setJSON(['success' => true]);
+   }
+   public function ZipFolder($folderName, $fileName)
+   {
+      $DirFolder = str_replace('_', '/', $folderName);
+
+      $this->qrCodeFilePath .= $DirFolder;
+      // $zipFileName = str_replace('_', ' ', $fileName);
+      $zipFileName =  $fileName;
+      $folderToZip = $this->relativePath .  $this->qrCodeFilePath;
+      // $folderToZip = base_url($DirFolder);
+      // dd($folderToZip);
+      $zip = new ZipArchive();
+      if ($zip->open($zipFileName, ZipArchive::CREATE) !== TRUE) {
+         exit("Tidak dapat membuka <$zipFileName>\n");
+      }
+
+      $this->addFolderToZip($folderToZip . '/', $zip);
+      $zip->close();
+
+
+      header('Content-Type: application/zip');
+      header('Content-Disposition: attachment; filename=' . basename($zipFileName));
+      header('Content-Length: ' . filesize($zipFileName));
+      readfile($zipFileName);
+
+
+      // Opsional: Hapus file ZIP setelah diunduh
+      unlink($zipFileName);
+
+      $this->deleteDirectory($folderToZip);
    }
 
    public function generateQrGuru()
@@ -100,36 +130,13 @@ class QRGenerator extends BaseController
 
       // Memanggil metode generate
 
-      $guru = $this->guruModel->getAllGuru();
+      $this->generate(
+         unique_code: $this->request->getVar('unique_code'),
+         nama: $this->request->getVar('nama'),
+         nomor: $this->request->getVar('nomor')
+      );
 
-      foreach ($guru as  $value) {
-         $this->generate(unique_code: $value['unique_code'], nama: $value['nama_guru'], nomor: $value['nuptk']);
-      }
-
-
-      $folderToZip = $this->relativePath . $this->qrCodeFilePath; // Ganti dengan path folder yang ingin di-zip
-      $zipFileName = 'ALL GURU.zip'; // Nama file ZIP
-
-      $zip = new ZipArchive();
-      if ($zip->open($zipFileName, ZipArchive::CREATE) !== TRUE) {
-         exit("Tidak dapat membuka <$zipFileName>\n");
-      }
-
-      $this->addFilesToZip($zip, $folderToZip);
-
-      $zip->close();
-
-      header('Content-Type: application/zip');
-      header('Content-Disposition: attachment; filename=' . basename($zipFileName));
-      header('Content-Length: ' . filesize($zipFileName));
-      readfile($zipFileName);
-
-      // Opsional: Hapus file ZIP setelah diunduh
-      unlink($zipFileName);
-
-      $this->deleteDirectory($folderToZip);
-      // Mengembalikan respons JSON
-      return $this->response->setJSON(['success' => true]);
+      return $this->response->setJSON(true);
    }
 
 
@@ -168,23 +175,27 @@ class QRGenerator extends BaseController
       }
       rmdir($dirPath);
    }
-   protected function addFilesToZip($zip, $folder)
+   protected function addFolderToZip($dir, $zipArchive, $zipdir = '')
    {
-      $files = new RecursiveIteratorIterator(
-         new RecursiveDirectoryIterator($folder),
-         RecursiveIteratorIterator::LEAVES_ONLY
-      );
+      if (is_dir($dir)) {
+         if ($dh = opendir($dir)) {
+            // Menambahkan folder ke arsip
+            if (!empty($zipdir)) $zipArchive->addEmptyDir($zipdir);
 
-      foreach ($files as $name => $file) {
-         // Skip direktori, karena mereka akan ditambahkan secara otomatis
-         if (!$file->isDir()) {
-            // Dapatkan path absolut ke file
-            $filePath = $file->getRealPath();
-            // Dapatkan path relatif ke file, relatif ke folder yang di-zip
-            $relativePath = substr($filePath, strlen($folder) + 1);
-
-            // Tambahkan file ke ZIP
-            $zip->addFile($filePath, $relativePath);
+            // Loop melalui file dan folder
+            while (($file = readdir($dh)) !== false) {
+               // Lewati file . dan ..
+               if ($file != '.' && $file != '..') {
+                  // Jika adalah folder, rekursi
+                  if (is_dir($dir . $file)) {
+                     $this->addFolderToZip($dir . $file . '/', $zipArchive, $zipdir . $file . '/');
+                  } else {
+                     // Jika adalah file, tambahkan ke arsip
+                     $zipArchive->addFile($dir . $file, $zipdir . $file);
+                  }
+               }
+            }
+            closedir($dh);
          }
       }
    }

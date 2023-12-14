@@ -98,7 +98,8 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->post('generate/siswa-by-kelas', 'Admin\GenerateQR::getSiswaByKelas');
 
    $routes->post('generate/siswa', 'Admin\QRGenerator::generateQrSiswa');
-   $routes->get('generate/guru', 'Admin\QRGenerator::generateQrGuru');
+   $routes->post('generate/guru', 'Admin\QRGenerator::generateQrGuru');
+   $routes->get('generate/zip/(:any)/(:any)', 'Admin\QRGenerator::ZipFolder/$1/$2');
 
    // admin buat laporan
    $routes->get('laporan', 'Admin\GenerateLaporan::index');

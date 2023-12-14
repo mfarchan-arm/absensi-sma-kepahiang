@@ -181,6 +181,11 @@
                } else {
                   $('#progressTextSiswa').html('Progres: ' + i + '/' + dataSiswa.length + ' selesai');
                   $('#progressSelesaiSiswa').removeClass('d-none');
+                  var folderName = 'qr-siswa/'.replace(/\//g, '_');
+                  var fileName = 'QR Seluruh Siswa.zip'.replace(/\s+/g, '_'); // Mengganti spasi dengan dash
+
+                  var url = `<?= base_url(); ?>admin/generate/zip/${folderName}/${fileName}`;
+                  window.open(url, '_blank');
                }
 
                $('#progressBarSiswa')
@@ -190,6 +195,7 @@
             }
          });
       });
+
    }
 
    function generateQrSiswaByKelas() {
@@ -248,6 +254,11 @@
                      } else {
                         $('#progressTextKelas').html('Progres: ' + i + '/' + dataSiswaPerKelas.length + ' selesai');
                         $('#progressSelesaiKelas').removeClass('d-none');
+                        var folderName = ('qr-siswa_' + element['kelas'] + '-' + element['jurusan']).replace(/\//g, '_').toLowerCase();
+                        var fileName = 'QR Siswa Kelas ' + element['kelas'] + ' ' + element['jurusan'] + '.zip'.replace(/\s+/g, '_'); // Mengganti spasi dengan dash
+
+                        var url = `<?= base_url(); ?>admin/generate/zip/${folderName}/${fileName}`;
+                        window.open(url, '_blank');
                      }
 
                      $('#progressBarKelas')
@@ -262,44 +273,47 @@
             });
          }
       });
+
    }
 
    function generateAllQrGuru() {
-      var i = dataGuru.length;
+      var i = 1;
       $('#progressGuru').removeClass('d-none');
       $('#progressBarGuru')
          .attr('aria-valuenow', '0')
          .attr('aria-valuemin', '0')
          .attr('aria-valuemax', dataGuru.length)
          .attr('style', 'width: 0%;');
-         window.open('<?= base_url('admin/generate/guru'); ?>', '_blank');
-         
-         $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length + ' selesai');
+      console.log(dataGuru);
+      dataGuru.forEach(element => {
+         jQuery.ajax({
+            url: "<?= base_url('admin/generate/guru'); ?>",
+            type: 'post',
+            data: {
+               nama: element['nama'],
+               unique_code: element['unique_code'],
+               nomor: element['nomor']
+            },
+            success: function(response) {
+               if (i != dataGuru.length) {
+                  $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length);
+               } else {
+                  $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length + ' selesai');
                   $('#progressSelesaiGuru').removeClass('d-none');
-                  $('#progressBarGuru')
+                  var folderName = 'qr-guru_'.replace(/\//g, '_').toLowerCase();
+                  var fileName = 'QR Seluruh Guru.zip'.replace(/\s+/g, '_'); // Mengganti spasi dengan dash
+
+                  var url = `<?= base_url(); ?>admin/generate/zip/${folderName}/${fileName}`;
+                  window.open(url, '_blank');
+               }
+
+               $('#progressBarGuru')
                   .attr('aria-valuenow', i)
                   .attr('style', 'width: ' + (i / dataGuru.length) * 100 + '%;');
                i++;
-      // console.log(dataGuru);
-      // dataGuru.forEach(element => {
-         // jQuery.ajax({
-         //    url: "<?= base_url('admin/generate/guru'); ?>",
-         //    type: 'get',
-         //    success: function(response) {
-         //       if (i != dataGuru.length) {
-         //          $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length);
-         //       } else {
-         //          $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length + ' selesai');
-         //          $('#progressSelesaiGuru').removeClass('d-none');
-         //       }
-
-         //       $('#progressBarGuru')
-         //          .attr('aria-valuenow', i)
-         //          .attr('style', 'width: ' + (i / dataGuru.length) * 100 + '%;');
-         //       i++;
-         //    }
-         // });
-      // });
+            }
+         });
+      });
    }
 </script>
 <?= $this->endSection() ?>
