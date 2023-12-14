@@ -45,7 +45,9 @@ class QRGenerator extends BaseController
       }
 
       $this->writer = new PngWriter();
-      $this->labelFont = new NotoSans(20);
+
+      $this->labelFont = new Font($this->relativePath . 'assets/fonts/Roboto-Medium.ttf', 14);
+
       $this->foregroundColor = new Color(44, 73, 162);
       $this->backgroundColor = new Color(255, 255, 255);
       $this->logo = Logo::create(base_url('assets/img/apple-icon.png'))
@@ -95,41 +97,16 @@ class QRGenerator extends BaseController
 
       // Memeriksa dan membuat direktori jika belum ada
       if (!file_exists($this->relativePath . $this->qrCodeFilePath)) {
-         mkdir($this->relativePath . $this->qrCodeFilePath, 0755, true); // Izin dan flag rekursif
+         mkdir($this->relativePath . $this->qrCodeFilePath);
       }
 
-      // Memanggil metode generate
+      $this->generate(
+         unique_code: $this->request->getVar('unique_code'),
+         nama: $this->request->getVar('nama'),
+         nomor: $this->request->getVar('nomor')
+      );
 
-      $guru = $this->guruModel->getAllGuru();
-      
-      foreach ($guru as  $value) {
-         $this->generate(unique_code: $value['unique_code'], nama: $value['nama_guru'], nomor: $value['nuptk']);
-      }
-
-
-      $folderToZip = $this->relativePath . $this->qrCodeFilePath; // Ganti dengan path folder yang ingin di-zip
-      $zipFileName = 'ALL GURU.zip'; // Nama file ZIP
-
-      $zip = new ZipArchive();
-      if ($zip->open($zipFileName, ZipArchive::CREATE) !== TRUE) {
-         exit("Tidak dapat membuka <$zipFileName>\n");
-      }
-
-      $this->addFilesToZip($zip, $folderToZip);
-
-      $zip->close();
-
-      header('Content-Type: application/zip');
-      header('Content-Disposition: attachment; filename=' . basename($zipFileName));
-      header('Content-Length: ' . filesize($zipFileName));
-      readfile($zipFileName);
-
-      // Opsional: Hapus file ZIP setelah diunduh
-      unlink($zipFileName);
-
-      $this->deleteDirectory($folderToZip);
-      // Mengembalikan respons JSON
-      return $this->response->setJSON(['success' => true]);
+      return $this->response->setJSON(true);
    }
 
 
@@ -143,49 +120,10 @@ class QRGenerator extends BaseController
 
       // Set text label
       $this->label->setText($nama);
-      // $this->logo = Logo::create(base_url('assets/img/logo_sekolah.jpg'))->setResizeToWidth(75);
-      // Menyimpan QR Code sebagai file
-      $this->writer->write($this->qrCode, NULL, $this->label)
-         ->saveToFile($this->relativePath . $this->qrCodeFilePath . $filename);
-   }
 
-
-   protected function deleteDirectory($dirPath)
-   {
-      if (!is_dir($dirPath)) {
-         throw new InvalidArgumentException("$dirPath harus merupakan direktori");
-      }
-      if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
-         $dirPath .= '/';
-      }
-      $files = glob($dirPath . '*', GLOB_MARK);
-      foreach ($files as $file) {
-         if (is_dir($file)) {
-            $this->deleteDirectory($file);
-         } else {
-            unlink($file);
-         }
-      }
-      rmdir($dirPath);
-   }
-   protected function addFilesToZip($zip, $folder)
-   {
-      $files = new RecursiveIteratorIterator(
-         new RecursiveDirectoryIterator($folder),
-         RecursiveIteratorIterator::LEAVES_ONLY
-      );
-
-      foreach ($files as $name => $file) {
-         // Skip direktori, karena mereka akan ditambahkan secara otomatis
-         if (!$file->isDir()) {
-            // Dapatkan path absolut ke file
-            $filePath = $file->getRealPath();
-            // Dapatkan path relatif ke file, relatif ke folder yang di-zip
-            $relativePath = substr($filePath, strlen($folder) + 1);
-
-            // Tambahkan file ke ZIP
-            $zip->addFile($filePath, $relativePath);
-         }
-      }
+      // Save it to a file
+      $this->writer
+         ->write(qrCode: $this->qrCode, logo: $this->logo, label: $this->label)
+         ->saveToFile(path: $this->relativePath . $this->qrCodeFilePath . $filename);
    }
 }
