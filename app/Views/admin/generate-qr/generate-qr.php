@@ -265,38 +265,41 @@
    }
 
    function generateAllQrGuru() {
-      var i = 1;
+      var i = dataGuru.length;
       $('#progressGuru').removeClass('d-none');
       $('#progressBarGuru')
          .attr('aria-valuenow', '0')
          .attr('aria-valuemin', '0')
          .attr('aria-valuemax', dataGuru.length)
          .attr('style', 'width: 0%;');
-
-      dataGuru.forEach(element => {
-         jQuery.ajax({
-            url: "<?= base_url('admin/generate/guru'); ?>",
-            type: 'post',
-            data: {
-               nama: element['nama'],
-               unique_code: element['unique_code'],
-               nomor: element['nomor']
-            },
-            success: function(response) {
-               if (i != dataGuru.length) {
-                  $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length);
-               } else {
-                  $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length + ' selesai');
+         window.open('<?= base_url('admin/generate/guru'); ?>', '_blank');
+         
+         $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length + ' selesai');
                   $('#progressSelesaiGuru').removeClass('d-none');
-               }
-
-               $('#progressBarGuru')
+                  $('#progressBarGuru')
                   .attr('aria-valuenow', i)
                   .attr('style', 'width: ' + (i / dataGuru.length) * 100 + '%;');
                i++;
-            }
-         });
-      });
+      // console.log(dataGuru);
+      // dataGuru.forEach(element => {
+         // jQuery.ajax({
+         //    url: "<?= base_url('admin/generate/guru'); ?>",
+         //    type: 'get',
+         //    success: function(response) {
+         //       if (i != dataGuru.length) {
+         //          $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length);
+         //       } else {
+         //          $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length + ' selesai');
+         //          $('#progressSelesaiGuru').removeClass('d-none');
+         //       }
+
+         //       $('#progressBarGuru')
+         //          .attr('aria-valuenow', i)
+         //          .attr('style', 'width: ' + (i / dataGuru.length) * 100 + '%;');
+         //       i++;
+         //    }
+         // });
+      // });
    }
 </script>
 <?= $this->endSection() ?>
