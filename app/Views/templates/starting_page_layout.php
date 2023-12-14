@@ -6,7 +6,7 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <?= $this->include('templates/css'); ?>
-   <title>Absensi QR Code</title>
+   <title>Presensi QR Code</title>
    <style>
       .bg {
          background: url(<?= base_url('assets/img/bg2.jpg'); ?>) center;

@@ -150,7 +150,7 @@ class QRGenerator extends BaseController
 
       // Set text label
       $this->label->setText($nama);
-      // $this->logo = Logo::create(base_url('assets/img/logo_sekolah.jpg'))->setResizeToWidth(75);
+      // $this->logo = Logo::create(base_url('assets/img/logo_sekolah.png'))->setResizeToWidth(75);
       // Menyimpan QR Code sebagai file
       $this->writer->write($this->qrCode, NULL, $this->label)
          ->saveToFile($this->relativePath . $this->qrCodeFilePath . $filename);

@@ -29,10 +29,10 @@
                      <input type="hidden" name="id" value="<?= $data['id_guru'] ?>">
 
                      <div class="form-group mt-4">
-                        <label for="nuptk">NUPTK</label>
-                        <input type="text" id="nuptk" class="form-control <?= $validation->getError('nuptk') ? 'is-invalid' : ''; ?>" name="nuptk" placeholder="1234" value="<?= old('nuptk') ?? $oldInput['nuptk'] ?? $data['nuptk'] ?>">
+                        <label for="nik">NIK</label>
+                        <input type="text" id="nik" class="form-control <?= $validation->getError('nik') ? 'is-invalid' : ''; ?>" name="nik" placeholder="1234" value="<?= old('nik') ?? $oldInput['nik'] ?? $data['nik'] ?>">
                         <div class="invalid-feedback">
-                           <?= $validation->getError('nuptk'); ?>
+                           <?= $validation->getError('nik'); ?>
                         </div>
                      </div>
 

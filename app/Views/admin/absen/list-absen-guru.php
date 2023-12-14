@@ -3,7 +3,7 @@
       <table class="table table-hover">
          <thead class="text-success">
             <th><b>No.</b></th>
-            <th><b>NUPTK</b></th>
+            <th><b>NIK</b></th>
             <th><b>Nama Guru</b></th>
             <th><b>Kehadiran</b></th>
             <th><b>Jam masuk</b></th>
@@ -20,7 +20,7 @@
                ?>
                <tr>
                   <td><?= $no; ?></td>
-                  <td><?= $value['nuptk']; ?></td>
+                  <td><?= $value['nik']; ?></td>
                   <td><b><?= $value['nama_guru']; ?></b></td>
                   <td>
                      <p class="p-2 w-100 btn btn-<?= $kehadiran['color']; ?> text-center">

@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `tb_guru` (
   `id_guru` int(11) NOT NULL,
-  `nuptk` varchar(24) NOT NULL,
+  `nik` varchar(24) NOT NULL,
   `nama_guru` varchar(255) NOT NULL,
   `jenis_kelamin` enum('Laki-laki','Perempuan') NOT NULL,
   `alamat` text NOT NULL,

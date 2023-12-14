@@ -3,11 +3,11 @@
 <?= $this->section('content') ?>
 <table>
    <tr>
-      <td><img src="<?= base_url('assets/img/logo_sekolah.jpg'); ?>" width="100px" height="100px"></img></td>
+      <td><img src="<?= base_url('assets/img/logo_sekolah.png'); ?>" width="100px" height="100px"></img></td>
       <td width="100%">
          <h2 align="center">DAFTAR HADIR GURU</h2>
-         <h4 align="center">SMK 12369 HONGKONG</h4>
-         <h4 align="center">TAHUN PELAJARAN 2022/2023</h4>
+         <h4 align="center">SMA Negeri 2 Kepahiang</h4>
+         <h4 align="center">TAHUN PELAJARAN 2023/2024</h4>
       </td>
       <td>
          <div style="width:100px"></div>

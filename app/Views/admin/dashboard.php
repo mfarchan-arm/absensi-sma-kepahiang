@@ -56,7 +56,7 @@
                     <div class="card-footer">
                         <div class="stats">
                             <i class="material-icons">home</i>
-                            SMK 12369 HONGKONG
+                            SMA Negeri 2 Kepahiang
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title"><b>Absensi Siswa Hari Ini</b></h4>
+                        <h4 class="card-title"><b>Presensi Siswa Hari Ini</b></h4>
                         <p class="card-category"><?= $dateNow; ?></p>
                     </div>
                     <div class="card-body">
@@ -113,7 +113,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header card-header-success">
-                        <h4 class="card-title"><b>Absensi Guru Hari Ini</b></h4>
+                        <h4 class="card-title"><b>Presensi Guru Hari Ini</b></h4>
                         <p class="card-category"><?= $dateNow; ?></p>
                     </div>
                     <div class="card-body">

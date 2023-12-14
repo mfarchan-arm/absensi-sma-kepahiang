@@ -12,12 +12,12 @@ class DataGuru extends BaseController
    protected GuruModel $guruModel;
 
    protected $guruValidationRules = [
-      'nuptk' => [
+      'nik' => [
          'rules' => 'required|max_length[20]|min_length[16]',
          'errors' => [
-            'required' => 'NUPTK harus diisi.',
-            'is_unique' => 'NUPTK ini telah terdaftar.',
-            'min_length[16]' => 'Panjang NUPTK minimal 16 karakter'
+            'required' => 'NIK harus diisi.',
+            'is_unique' => 'NIK ini telah terdaftar.',
+            'min_length[16]' => 'Panjang NIK minimal 16 karakter'
          ]
       ],
       'nama' => [
@@ -80,13 +80,13 @@ class DataGuru extends BaseController
          return view('/admin/data/create/create-data-guru', $data);
       }
 
-      $nuptk = $this->request->getVar('nuptk');
+      $nik = $this->request->getVar('nik');
       $namaGuru = $this->request->getVar('nama');
       $jenisKelamin = $this->request->getVar('jk');
       $alamat = $this->request->getVar('alamat');
       $noHp = $this->request->getVar('no_hp');
 
-      $result = $this->guruModel->saveGuru(NULL, $nuptk, $namaGuru, $jenisKelamin, $alamat, $noHp);
+      $result = $this->guruModel->saveGuru(NULL, $nik, $namaGuru, $jenisKelamin, $alamat, $noHp);
 
       if ($result) {
          session()->setFlashdata([
@@ -136,13 +136,13 @@ class DataGuru extends BaseController
          return view('/admin/data/edit/edit-data-guru', $data);
       }
 
-      $nuptk = $this->request->getVar('nuptk');
+      $nik = $this->request->getVar('nik');
       $namaGuru = $this->request->getVar('nama');
       $jenisKelamin = $this->request->getVar('jk');
       $alamat = $this->request->getVar('alamat');
       $noHp = $this->request->getVar('no_hp');
 
-      $result = $this->guruModel->saveGuru($idGuru, $nuptk, $namaGuru, $jenisKelamin, $alamat, $noHp);
+      $result = $this->guruModel->saveGuru($idGuru, $nik, $namaGuru, $jenisKelamin, $alamat, $noHp);
 
       if ($result) {
          session()->setFlashdata([

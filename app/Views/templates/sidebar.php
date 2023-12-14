@@ -28,7 +28,7 @@ switch ($context) {
     -->
    <div class="logo">
       <a class="simple-text logo-normal">
-         <b>Operator<br>Petugas Absensi</b>
+         <b>Operator<br>Petugas Presensi</b>
       </a>
    </div>
    <div class="sidebar-wrapper">
@@ -42,13 +42,13 @@ switch ($context) {
          <li class="nav-item <?= $context == 'absen-siswa' ? 'active' : ''; ?>">
             <a class="nav-link" href="<?= base_url('admin/absen-siswa'); ?>">
                <i class="material-icons">checklist</i>
-               <p>Absensi Siswa</p>
+               <p>Presensi Siswa</p>
             </a>
          </li>
          <li class="nav-item <?= $context == 'absen-guru' ? 'active' : ''; ?>">
             <a class="nav-link" href="<?= base_url('admin/absen-guru'); ?>">
                <i class="material-icons">checklist</i>
-               <p>Absensi Guru</p>
+               <p>Presensi Guru</p>
             </a>
          </li>
          <li class="nav-item <?= $context == 'siswa' ? 'active' : ''; ?>">
