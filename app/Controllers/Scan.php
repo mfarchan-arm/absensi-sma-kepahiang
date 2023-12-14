@@ -7,7 +7,7 @@ use App\Models\GuruModel;
 use App\Models\SiswaModel;
 use App\Models\PresensiGuruModel;
 use App\Models\PresensiSiswaModel;
-use TipeUser;
+use App\Libraries\enums\TipeUser;
 
 class Scan extends BaseController
 {
@@ -30,6 +30,7 @@ class Scan extends BaseController
       $data = ['waktu' => $t, 'title' => 'Absensi Siswa dan Guru Berbasis QR Code'];
       return view('scan/scan', $data);
    }
+   
 
    public function cekKode()
    {

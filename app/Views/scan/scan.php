@@ -180,7 +180,7 @@
              'waktu': '<?= strtolower($waktu); ?>'
           },
           success: function(response, status, xhr) {
-             audio.play();
+            //  audio.play();
              console.log(response);
              $('#hasilScan').html(response);
 
