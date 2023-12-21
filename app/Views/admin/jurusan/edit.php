@@ -10,7 +10,7 @@
           </div>
           <div class="card-body mx-5 my-3">
 
-            <form action="<?= base_url('admin/jurusan/' . $data['id']); ?>" method="post">
+            <form action="<?= base_url('admin/jurusan/' . $data['jurusan']); ?>" method="post">
               <input type="hidden" name="_method" value="PATCH">
               <?= csrf_field() ?>
               <?php $validation = \Config\Services::validation(); ?>

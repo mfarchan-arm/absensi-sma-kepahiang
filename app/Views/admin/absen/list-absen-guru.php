@@ -32,7 +32,7 @@
                   <td><?= $value['keterangan'] ?? '-'; ?></td>
                   <td>
                      <?php if (!$lewat) : ?>
-                        <button data-toggle="modal" data-target="#ubahModal" onclick="getDataKehadiran(<?= $value['id_presensi'] ?? '-1'; ?>, <?= $value['id_guru']; ?>)" class="btn btn-info p-2" id="<?= $value['id_guru']; ?>">
+                        <button data-toggle="modal" data-target="#ubahModal" onclick="getDataKehadiran(<?= $value['id_presensi'] ?? '-1'; ?>, <?= $value['nik']; ?>)" class="btn btn-info p-2" id="<?= $value['nik']; ?>">
                            <i class="material-icons">edit</i>
                            Edit
                         </button>

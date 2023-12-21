@@ -86,8 +86,8 @@ class DataGuru extends BaseController
       $alamat = $this->request->getVar('alamat');
       $noHp = $this->request->getVar('no_hp');
 
-      $result = $this->guruModel->saveGuru(NULL, $nik, $namaGuru, $jenisKelamin, $alamat, $noHp);
-
+      $result = $this->guruModel->insertGuru($nik, $namaGuru, $jenisKelamin, $alamat, $noHp);
+      // dd($result);
       if ($result) {
          session()->setFlashdata([
             'msg' => 'Tambah data berhasil',
@@ -103,12 +103,12 @@ class DataGuru extends BaseController
       return redirect()->to('/admin/guru/create/');
    }
 
-   public function formEditGuru($id)
+   public function formEditGuru($nik)
    {
-      $guru = $this->guruModel->getGuruById($id);
+      $guru = $this->guruModel->getGuruById($nik);
 
       if (empty($guru)) {
-         throw new PageNotFoundException('Data guru dengan id ' . $id . ' tidak ditemukan');
+         throw new PageNotFoundException('Data guru dengan nik ' . $nik . ' tidak ditemukan');
       }
 
       $data = [
@@ -122,12 +122,12 @@ class DataGuru extends BaseController
 
    public function updateGuru()
    {
-      $idGuru = $this->request->getVar('id');
+      $nik = $this->request->getVar('nik');
 
       // validasi
       if (!$this->validate($this->guruValidationRules)) {
          $data = [
-            'data' => $this->guruModel->getGuruById($idGuru),
+            'data' => $this->guruModel->getGuruById($nik),
             'ctx' => 'guru',
             'title' => 'Edit Data Guru',
             'validation' => $this->validator,
@@ -142,7 +142,7 @@ class DataGuru extends BaseController
       $alamat = $this->request->getVar('alamat');
       $noHp = $this->request->getVar('no_hp');
 
-      $result = $this->guruModel->saveGuru($idGuru, $nik, $namaGuru, $jenisKelamin, $alamat, $noHp);
+      $result = $this->guruModel->saveGuru($nik, $namaGuru, $jenisKelamin, $alamat, $noHp);
 
       if ($result) {
          session()->setFlashdata([
@@ -156,12 +156,12 @@ class DataGuru extends BaseController
          'msg' => 'Gagal mengubah data',
          'error' => true
       ]);
-      return redirect()->to('/admin/guru/edit/' . $idGuru);
+      return redirect()->to('/admin/guru/edit/' . $nik);
    }
 
-   public function delete($id)
+   public function delete($nik)
    {
-      $result = $this->guruModel->delete($id);
+      $result = $this->guruModel->delete($nik);
 
       if ($result) {
          session()->setFlashdata([

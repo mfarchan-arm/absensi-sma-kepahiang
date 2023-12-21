@@ -93,37 +93,37 @@ class Scan extends BaseController
       // absen masuk
       switch ($type) {
          case TipeUser::Guru:
-            $idGuru =  $result['id_guru'];
+            $nik =  $result['nik'];
             $data['type'] = TipeUser::Guru;
 
-            $sudahAbsen = $this->presensiGuruModel->cekAbsen($idGuru, $date);
+            $sudahAbsen = $this->presensiGuruModel->cekAbsen($nik, $date);
 
             if ($sudahAbsen) {
                $data['presensi'] = $this->presensiGuruModel->getPresensiById($sudahAbsen);
                return $this->showErrorView('Anda sudah absen hari ini', $data);
             }
 
-            $this->presensiGuruModel->absenMasuk($idGuru, $date, $time);
+            $this->presensiGuruModel->absenMasuk($nik, $date, $time);
 
-            $data['presensi'] = $this->presensiGuruModel->getPresensiByIdGuruTanggal($idGuru, $date);
+            $data['presensi'] = $this->presensiGuruModel->getPresensiByIdGuruTanggal($nik, $date);
 
             return view('scan/scan-result', $data);
 
          case TipeUser::Siswa:
-            $idSiswa =  $result['id_siswa'];
+            $nis =  $result['nis'];
             $idKelas =  $result['id_kelas'];
             $data['type'] = TipeUser::Siswa;
 
-            $sudahAbsen = $this->presensiSiswaModel->cekAbsen($idSiswa, Time::today()->toDateString());
+            $sudahAbsen = $this->presensiSiswaModel->cekAbsen($nis, Time::today()->toDateString());
 
             if ($sudahAbsen) {
                $data['presensi'] = $this->presensiSiswaModel->getPresensiById($sudahAbsen);
                return $this->showErrorView('Anda sudah absen hari ini', $data);
             }
 
-            $this->presensiSiswaModel->absenMasuk($idSiswa, $date, $time, $idKelas);
+            $this->presensiSiswaModel->absenMasuk($nis, $date, $time, $idKelas);
 
-            $data['presensi'] = $this->presensiSiswaModel->getPresensiByIdSiswaTanggal($idSiswa, $date);
+            $data['presensi'] = $this->presensiSiswaModel->getPresensiByIdSiswaTanggal($nis, $date);
 
             return view('scan/scan-result', $data);
 
@@ -144,10 +144,10 @@ class Scan extends BaseController
       // absen pulang
       switch ($type) {
          case TipeUser::Guru:
-            $idGuru =  $result['id_guru'];
+            $nik =  $result['nik'];
             $data['type'] = TipeUser::Guru;
 
-            $sudahAbsen = $this->presensiGuruModel->cekAbsen($idGuru, $date);
+            $sudahAbsen = $this->presensiGuruModel->cekAbsen($nik, $date);
 
             if (!$sudahAbsen) {
                return $this->showErrorView('Anda belum absen hari ini', $data);
@@ -160,10 +160,10 @@ class Scan extends BaseController
             return view('scan/scan-result', $data);
 
          case TipeUser::Siswa:
-            $idSiswa =  $result['id_siswa'];
+            $nis =  $result['nis'];
             $data['type'] = TipeUser::Siswa;
 
-            $sudahAbsen = $this->presensiSiswaModel->cekAbsen($idSiswa, $date);
+            $sudahAbsen = $this->presensiSiswaModel->cekAbsen($nis, $date);
 
             if (!$sudahAbsen) {
                return $this->showErrorView('Anda belum absen hari ini', $data);

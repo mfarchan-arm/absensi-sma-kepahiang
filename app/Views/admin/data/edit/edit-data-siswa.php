@@ -26,8 +26,6 @@
                         </div>
                      <?php endif; ?>
 
-                     <input type="hidden" name="id" value="<?= $data['id_siswa']; ?>">
-
                      <div class="form-group mt-4">
                         <label for="nis">NIS</label>
                         <input type="text" id="nis" class="form-control <?= $validation->getError('nis') ? 'is-invalid' : ''; ?>" name="nis" placeholder="1234" value="<?= old('nis') ?? $oldInput['nis'] ?? $data['nis'] ?>">

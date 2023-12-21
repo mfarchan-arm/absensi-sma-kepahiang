@@ -8,8 +8,8 @@ class JurusanModel extends Model
 {
     protected $DBGroup          = 'default';
     protected $table            = 'tb_jurusan';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $primaryKey       = 'jurusan';
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;

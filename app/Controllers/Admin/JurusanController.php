@@ -31,7 +31,7 @@ class JurusanController extends ResourceController
      *
      * @return mixed
      */
-    public function show($id = null)
+    public function show($jurusan = null)
     {
         $result = $this->jurusanModel->findAll();
 
@@ -66,7 +66,7 @@ class JurusanController extends ResourceController
     {
         if (!$this->validate([
             'jurusan' => [
-                'rules' => 'required|max_length[32]|is_unique[tb_jurusan.jurusan]',
+                'rules' => 'required|max_length[16]|is_unique[tb_jurusan.jurusan]',
             ],
         ])) {
             $data = [
@@ -103,12 +103,12 @@ class JurusanController extends ResourceController
      *
      * @return mixed
      */
-    public function edit($id = null)
+    public function edit($jurusan = null)
     {
-        $jurusan = $this->jurusanModel->where(['id' => $id])->first();
+        $jurusan = $this->jurusanModel->where(['jurusan' => $jurusan])->first();
 
         if (!$jurusan) {
-            throw new PageNotFoundException('Data jurusan dengan id ' . $id . ' tidak ditemukan');
+            throw new PageNotFoundException('Data jurusan ' . $jurusan . ' tidak ditemukan');
         }
 
         $data = [
@@ -124,9 +124,9 @@ class JurusanController extends ResourceController
      *
      * @return mixed
      */
-    public function update($id = null)
+    public function update($jurusan = null)
     {
-        $jurusan = $this->jurusanModel->where(['id' => $id])->first();
+        $jurusan = $this->jurusanModel->where(['jurusan' => $jurusan])->first();
 
         // ambil variabel POST
         $namaJurusan = $this->request->getRawInputVar('jurusan');
@@ -137,7 +137,7 @@ class JurusanController extends ResourceController
             ],
         ])) {
             if (!$jurusan) {
-                throw new PageNotFoundException('Data jurusan dengan id ' . $id . ' tidak ditemukan');
+                throw new PageNotFoundException('Data jurusan ' . $jurusan . ' tidak ditemukan');
             }
 
             $data = [
@@ -150,7 +150,7 @@ class JurusanController extends ResourceController
             return view('/admin/jurusan/edit', $data);
         }
 
-        $result = $this->jurusanModel->update($id, [
+        $result = $this->jurusanModel->update($jurusan, [
             'jurusan' => $namaJurusan
         ]);
 
@@ -166,7 +166,7 @@ class JurusanController extends ResourceController
             'msg' => 'Gagal mengubah data',
             'error' => true
         ]);
-        return redirect()->to('/admin/jurusan/' . $id . '/edit');
+        return redirect()->to('/admin/jurusan/' . $jurusan . '/edit');
     }
 
     /**
@@ -174,9 +174,9 @@ class JurusanController extends ResourceController
      *
      * @return mixed
      */
-    public function delete($id = null)
+    public function delete($jurusan = null)
     {
-        $result = $this->jurusanModel->delete($id);
+        $result = $this->jurusanModel->delete($jurusan);
 
         if ($result) {
             session()->setFlashdata([

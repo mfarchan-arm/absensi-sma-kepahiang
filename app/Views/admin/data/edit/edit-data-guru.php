@@ -26,8 +26,6 @@
                      <?= csrf_field() ?>
                      <?php $validation = \Config\Services::validation(); ?>
 
-                     <input type="hidden" name="id" value="<?= $data['id_guru'] ?>">
-
                      <div class="form-group mt-4">
                         <label for="nik">NIK</label>
                         <input type="text" id="nik" class="form-control <?= $validation->getError('nik') ? 'is-invalid' : ''; ?>" name="nik" placeholder="1234" value="<?= old('nik') ?? $oldInput['nik'] ?? $data['nik'] ?>">

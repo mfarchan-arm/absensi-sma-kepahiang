@@ -13,7 +13,7 @@ class PresensiSiswaModel extends Model implements PresensiInterface
    protected $primaryKey = 'id_presensi';
 
    protected $allowedFields = [
-      'id_siswa',
+      'nis',
       'id_kelas',
       'tanggal',
       'jam_masuk',
@@ -24,19 +24,19 @@ class PresensiSiswaModel extends Model implements PresensiInterface
 
    protected $table = 'tb_presensi_siswa';
 
-   public function cekAbsen(string|int $id, string|Time $date)
+   public function cekAbsen(string|int $nis, string|Time $date)
    {
-      $result = $this->where(['id_siswa' => $id, 'tanggal' => $date])->first();
+      $result = $this->where(['nis' => $nis, 'tanggal' => $date])->first();
 
       if (empty($result)) return false;
 
       return $result[$this->primaryKey];
    }
 
-   public function absenMasuk(string $id,  $date, $time, $idKelas = '')
+   public function absenMasuk(string $nis,  $date, $time, $idKelas = '')
    {
       $this->save([
-         'id_siswa' => $id,
+         'nis' => $nis,
          'id_kelas' => $idKelas,
          'tanggal' => $date,
          'jam_masuk' => $time,
@@ -54,9 +54,9 @@ class PresensiSiswaModel extends Model implements PresensiInterface
       ]);
    }
 
-   public function getPresensiByIdSiswaTanggal($idSiswa, $date)
+   public function getPresensiByIdSiswaTanggal($nis, $date)
    {
-      return $this->where(['id_siswa' => $idSiswa, 'tanggal' => $date])->first();
+      return $this->where(['nis' => $nis, 'tanggal' => $date])->first();
    }
 
    public function getPresensiById(string $idPresensi)
@@ -69,8 +69,8 @@ class PresensiSiswaModel extends Model implements PresensiInterface
       return $this->setTable('tb_siswa')
          ->select('*')
          ->join(
-            "(SELECT id_presensi, id_siswa AS id_siswa_presensi, tanggal, jam_masuk, jam_keluar, id_kehadiran, keterangan FROM tb_presensi_siswa)tb_presensi_siswa",
-            "{$this->table}.id_siswa = tb_presensi_siswa.id_siswa_presensi AND tb_presensi_siswa.tanggal = '$tanggal'",
+            "(SELECT id_presensi, nis AS id_siswa_presensi, tanggal, jam_masuk, jam_keluar, id_kehadiran, keterangan FROM tb_presensi_siswa)tb_presensi_siswa",
+            "{$this->table}.nis = tb_presensi_siswa.id_siswa_presensi AND tb_presensi_siswa.tanggal = '$tanggal'",
             'left'
          )
          ->join(
@@ -87,7 +87,7 @@ class PresensiSiswaModel extends Model implements PresensiInterface
    {
       $this->join(
          'tb_siswa',
-         "tb_presensi_siswa.id_siswa = tb_siswa.id_siswa AND tb_presensi_siswa.tanggal = '$tanggal'",
+         "tb_presensi_siswa.nis = tb_siswa.nis AND tb_presensi_siswa.tanggal = '$tanggal'",
          'right'
       );
 
@@ -111,7 +111,7 @@ class PresensiSiswaModel extends Model implements PresensiInterface
 
    public function updatePresensi(
       $idPresensi,
-      $idSiswa,
+      $nis,
       $idKelas,
       $tanggal,
       $idKehadiran,
@@ -119,10 +119,10 @@ class PresensiSiswaModel extends Model implements PresensiInterface
       $jamKeluar,
       $keterangan
    ) {
-      $presensi = $this->getPresensiByIdSiswaTanggal($idSiswa, $tanggal);
+      $presensi = $this->getPresensiByIdSiswaTanggal($nis, $tanggal);
 
       $data = [
-         'id_siswa' => $idSiswa,
+         'nis' => $nis,
          'id_kelas' => $idKelas,
          'tanggal' => $tanggal,
          'id_kehadiran' => $idKehadiran,

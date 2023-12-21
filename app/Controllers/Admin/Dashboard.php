@@ -54,13 +54,13 @@ class Dashboard extends BaseController
          array_push(
             $siswaKehadiranArray,
             count($this->presensiSiswaModel
-               ->join('tb_siswa', 'tb_presensi_siswa.id_siswa = tb_siswa.id_siswa', 'left')
+               ->join('tb_siswa', 'tb_presensi_siswa.nis = tb_siswa.nis', 'left')
                ->where(['tb_presensi_siswa.tanggal' => "$date", 'tb_presensi_siswa.id_kehadiran' => '1'])->findAll())
          );
          array_push(
             $guruKehadiranArray,
             count($this->presensiGuruModel
-               ->join('tb_guru', 'tb_presensi_guru.id_guru = tb_guru.id_guru', 'left')
+               ->join('tb_guru', 'tb_presensi_guru.nik = tb_guru.nik', 'left')
                ->where(['tb_presensi_guru.tanggal' => "$date", 'tb_presensi_guru.id_kehadiran' => '1'])->findAll())
          );
       }

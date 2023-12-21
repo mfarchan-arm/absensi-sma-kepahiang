@@ -109,7 +109,7 @@ class DataSiswa extends BaseController
       $jenisKelamin = $this->request->getVar('jk');
       $noHp = $this->request->getVar('no_hp');
 
-      $result = $this->siswaModel->saveSiswa(NULL, $nis, $namaSiswa, $idKelas, $jenisKelamin, $noHp);
+      $result = $this->siswaModel->insertSiswa($nis, $namaSiswa, $idKelas, $jenisKelamin, $noHp);
 
       if ($result) {
          session()->setFlashdata([
@@ -126,13 +126,13 @@ class DataSiswa extends BaseController
       return redirect()->to('/admin/siswa/create');
    }
 
-   public function formEditSiswa($id)
+   public function formEditSiswa($nis)
    {
-      $siswa = $this->siswaModel->getSiswaById($id);
+      $siswa = $this->siswaModel->getSiswaById($nis);
       $kelas = $this->kelasModel->getAllKelas();
 
       if (empty($siswa) || empty($kelas)) {
-         throw new PageNotFoundException('Data siswa dengan id ' . $id . ' tidak ditemukan');
+         throw new PageNotFoundException('Data siswa dengan nis ' . $nis . ' tidak ditemukan');
       }
 
       $data = [
@@ -147,7 +147,7 @@ class DataSiswa extends BaseController
 
    public function updateSiswa()
    {
-      $idSiswa = $this->request->getVar('id');
+      $idSiswa = $this->request->getVar('nis');
 
       $siswaLama = $this->siswaModel->getSiswaById($idSiswa);
 
@@ -177,7 +177,7 @@ class DataSiswa extends BaseController
       $jenisKelamin = $this->request->getVar('jk');
       $noHp = $this->request->getVar('no_hp');
 
-      $result = $this->siswaModel->saveSiswa($idSiswa, $nis, $namaSiswa, $idKelas, $jenisKelamin, $noHp);
+      $result = $this->siswaModel->saveSiswa($nis, $namaSiswa, $idKelas, $jenisKelamin, $noHp);
 
       if ($result) {
          session()->setFlashdata([
@@ -194,9 +194,9 @@ class DataSiswa extends BaseController
       return redirect()->to('/admin/siswa/edit/' . $idSiswa);
    }
 
-   public function delete($id)
+   public function delete($nis)
    {
-      $result = $this->siswaModel->delete($id);
+      $result = $this->siswaModel->delete($nis);
 
       if ($result) {
          session()->setFlashdata([

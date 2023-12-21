@@ -160,13 +160,13 @@
       }
    }
 
-   function getDataKehadiran(idPresensi, idSiswa) {
+   function getDataKehadiran(idPresensi, nis) {
       jQuery.ajax({
          url: "<?= base_url('/admin/absen-siswa/kehadiran'); ?>",
          type: 'post',
          data: {
             'id_presensi': idPresensi,
-            'id_siswa': idSiswa
+            'nis': nis
          },
          success: function(response, status, xhr) {
             // console.log(status);

@@ -12,7 +12,7 @@ class PresensiGuruModel extends Model implements PresensiInterface
    protected $primaryKey = 'id_presensi';
 
    protected $allowedFields = [
-      'id_guru',
+      'nik',
       'tanggal',
       'jam_masuk',
       'jam_keluar',
@@ -22,19 +22,19 @@ class PresensiGuruModel extends Model implements PresensiInterface
 
    protected $table = 'tb_presensi_guru';
 
-   public function cekAbsen(string|int $id, string|Time $date)
+   public function cekAbsen($nik, string|Time $date)
    {
-      $result = $this->where(['id_guru' => $id, 'tanggal' => $date])->first();
+      $result = $this->where(['nik' => $nik, 'tanggal' => $date])->first();
 
       if (empty($result)) return false;
 
       return $result[$this->primaryKey];
    }
 
-   public function absenMasuk(string $id, $date, $time)
+   public function absenMasuk(string $nik, $date, $time)
    {
       $this->save([
-         'id_guru' => $id,
+         'nik' => $nik,
          'tanggal' => $date,
          'jam_masuk' => $time,
          // 'jam_keluar' => '',
@@ -43,17 +43,17 @@ class PresensiGuruModel extends Model implements PresensiInterface
       ]);
    }
 
-   public function absenKeluar(string $id, $time)
+   public function absenKeluar(string $nik, $time)
    {
-      $this->update($id, [
+      $this->update($nik, [
          'jam_keluar' => $time,
          'keterangan' => ''
       ]);
    }
 
-   public function getPresensiByIdGuruTanggal($idGuru, $date)
+   public function getPresensiByIdGuruTanggal($nik, $date)
    {
-      return $this->where(['id_guru' => $idGuru, 'tanggal' => $date])->first();
+      return $this->where(['nik' => $nik, 'tanggal' => $date])->first();
    }
 
    public function getPresensiById(string $idPresensi)
@@ -66,8 +66,8 @@ class PresensiGuruModel extends Model implements PresensiInterface
       return $this->setTable('tb_guru')
          ->select('*')
          ->join(
-            "(SELECT id_presensi, id_guru AS id_guru_presensi, tanggal, jam_masuk, jam_keluar, id_kehadiran, keterangan FROM tb_presensi_guru) tb_presensi_guru",
-            "{$this->table}.id_guru = tb_presensi_guru.id_guru_presensi AND tb_presensi_guru.tanggal = '$tanggal'",
+            "(SELECT id_presensi, nik AS id_guru_presensi, tanggal, jam_masuk, jam_keluar, id_kehadiran, keterangan FROM tb_presensi_guru) tb_presensi_guru",
+            "{$this->table}.nik = tb_presensi_guru.id_guru_presensi AND tb_presensi_guru.tanggal = '$tanggal'",
             'left'
          )
          ->join(
@@ -83,7 +83,7 @@ class PresensiGuruModel extends Model implements PresensiInterface
    {
       $this->join(
          'tb_guru',
-         "tb_presensi_guru.id_guru = tb_guru.id_guru AND tb_presensi_guru.tanggal = '$tanggal'",
+         "tb_presensi_guru.nik = tb_guru.nik AND tb_presensi_guru.tanggal = '$tanggal'",
          'right'
       );
 
@@ -107,17 +107,17 @@ class PresensiGuruModel extends Model implements PresensiInterface
 
    public function updatePresensi(
       $idPresensi,
-      $idGuru,
+      $nik,
       $tanggal,
       $idKehadiran,
       $jamMasuk,
       $jamKeluar,
       $keterangan
    ) {
-      $presensi = $this->getPresensiByIdGuruTanggal($idGuru, $tanggal);
+      $presensi = $this->getPresensiByIdGuruTanggal($nik, $tanggal);
 
       $data = [
-         'id_guru' => $idGuru,
+         'nik' => $nik,
          'tanggal' => $tanggal,
          'id_kehadiran' => $idKehadiran,
          'keterangan' => $keterangan ?? $presensi['keterangan'] ?? ''

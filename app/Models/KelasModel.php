@@ -11,7 +11,7 @@ class KelasModel extends Model
    protected $returnType       = 'array';
    protected $useSoftDeletes   = true;
    protected $protectFields    = true;
-   protected $allowedFields    = ['kelas', 'id_jurusan'];
+   protected $allowedFields    = ['kelas', 'jurusan'];
 
    protected $table = 'tb_kelas';
 
@@ -19,14 +19,14 @@ class KelasModel extends Model
 
    public function getAllKelas()
    {
-      return $this->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'left')->findAll();
+      return $this->join('tb_jurusan', 'tb_kelas.jurusan = tb_jurusan.jurusan', 'left')->findAll();
    }
 
-   public function tambahKelas($kelas, $idJurusan)
+   public function tambahKelas($kelas, $jurusan)
    {
       return $this->db->table($this->table)->insert([
          'kelas' => $kelas,
-         'id_jurusan' => $idJurusan
+         'jurusan' => $jurusan
       ]);
    }
 }

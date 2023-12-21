@@ -20,60 +20,59 @@ class CreateDB extends Migration
             (4, 'Tanpa keterangan');");
 
         $this->forge->getConnection()->query("INSERT INTO tb_jurusan (jurusan) VALUES
-            ('IPA 1'),
-            ('IPA 2'),
-            ('IPA 3'),
-            ('IPA 4'),
-            ('IPA 5'),
-            ('IPA 6'),
-            ('IPS 1'),
-            ('IPS 2'),
-            ('IPS 3'),
-            ('IPS 4'),
-            ('IPS 5'),
-            ('IPS 6');");
+            ('IPA1'),
+            ('IPA2'),
+            ('IPA3'),
+            ('IPA4'),
+            ('IPA5'),
+            ('IPA6'),
+            ('IPS1'),
+            ('IPS2'),
+            ('IPS3'),
+            ('IPS4'),
+            ('IPS5'),
+            ('IPS6');");
 
-        $this->forge->getConnection()->query("INSERT INTO tb_kelas (kelas, id_jurusan) VALUES
-            ('X', 1),
-            ('X', 2),
-            ('X', 3),
-            ('X', 4),
-            ('X', 5),
-            ('X', 6),
-            ('X', 7),
-            ('X', 8),
-            ('X', 9),
-            ('X', 10),
-            ('X', 11),
-            ('X', 12),
-            ('XI', 1),
-            ('XI', 2),
-            ('XI', 3),
-            ('XI', 4),
-            ('XI', 5),
-            ('XI', 6),
-            ('XI', 7),
-            ('XI', 8),
-            ('XI', 9),
-            ('XI', 10),
-            ('XI', 11),
-            ('XI', 12),
-            ('XII', 1),
-            ('XII', 2),
-            ('XII', 3),
-            ('XII', 4),
-            ('XII', 5),
-            ('XII', 6),
-            ('XII', 7),
-            ('XII', 8),
-            ('XII', 9),
-            ('XII', 10),
-            ('XII', 11),
-            ('XII', 12);");
+        $this->forge->getConnection()->query("INSERT INTO tb_kelas (kelas, jurusan) VALUES
+            ('X', 'IPA1'),
+            ('X', 'IPA2'),
+            ('X', 'IPA3'),
+            ('X', 'IPA4'),
+            ('X', 'IPA5'),
+            ('X', 'IPA6'),
+            ('X', 'IPS1'),
+            ('X', 'IPS2'),
+            ('X', 'IPS3'),
+            ('X', 'IPS4'),
+            ('X', 'IPS5'),
+            ('X', 'IPS6'),
+            ('XI', 'IPA1'),
+            ('XI', 'IPA2'),
+            ('XI', 'IPA3'),
+            ('XI', 'IPA4'),
+            ('XI', 'IPA5'),
+            ('XI', 'IPA6'),
+            ('XI', 'IPS1'),
+            ('XI', 'IPS2'),
+            ('XI', 'IPS3'),
+            ('XI', 'IPS4'),
+            ('XI', 'IPS5'),
+            ('XI', 'IPS6'),
+            ('XII', 'IPA1'),
+            ('XII', 'IPA2'),
+            ('XII', 'IPA3'),
+            ('XII', 'IPA4'),
+            ('XII', 'IPA5'),
+            ('XII', 'IPA6'),
+            ('XII', 'IPS1'),
+            ('XII', 'IPS2'),
+            ('XII', 'IPS3'),
+            ('XII', 'IPS4'),
+            ('XII', 'IPS5'),
+            ('XII', 'IPS6');");
 
         $this->forge->getConnection()->query("CREATE TABLE tb_guru (
-            id_guru int(11) NOT NULL,
-            nik varchar(24) NOT NULL,
+            nik varchar(32) NOT NULL,
             nama_guru varchar(255) NOT NULL,
             jenis_kelamin enum('Laki-laki','Perempuan') NOT NULL,
             alamat text NOT NULL,
@@ -83,7 +82,7 @@ class CreateDB extends Migration
 
         $this->forge->getConnection()->query("CREATE TABLE tb_presensi_guru (
             id_presensi int(11) NOT NULL,
-            id_guru int(11) DEFAULT NULL,
+            nik varchar(32) NOT NULL,
             tanggal date NOT NULL,
             jam_masuk time DEFAULT NULL,
             jam_keluar time DEFAULT NULL,
@@ -93,8 +92,7 @@ class CreateDB extends Migration
                         ");
 
         $this->forge->getConnection()->query("CREATE TABLE tb_siswa (
-            id_siswa int(11) NOT NULL,
-            nis varchar(16) NOT NULL,
+            nis varchar(32) NOT NULL,
             nama_siswa varchar(255) NOT NULL,
             id_kelas int(11) UNSIGNED NOT NULL,
             jenis_kelamin enum('Laki-laki','Perempuan') NOT NULL,
@@ -104,7 +102,7 @@ class CreateDB extends Migration
 
         $this->forge->getConnection()->query("CREATE TABLE tb_presensi_siswa (
             id_presensi int(11) NOT NULL,
-            id_siswa int(11) NOT NULL,
+            nis varchar(32) NOT NULL,
             id_kelas int(11) UNSIGNED DEFAULT NULL,
             tanggal date NOT NULL,
             jam_masuk time DEFAULT NULL,
@@ -114,7 +112,7 @@ class CreateDB extends Migration
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
         $this->forge->getConnection()->query("ALTER TABLE tb_guru
-            ADD PRIMARY KEY (id_guru),
+            ADD PRIMARY KEY (nik),
             ADD UNIQUE KEY unique_code (unique_code);");
 
         $this->forge->getConnection()->query("ALTER TABLE tb_kehadiran
@@ -123,21 +121,18 @@ class CreateDB extends Migration
         $this->forge->getConnection()->query("ALTER TABLE tb_presensi_guru
             ADD PRIMARY KEY (id_presensi),
             ADD KEY id_kehadiran (id_kehadiran),
-            ADD KEY id_guru (id_guru);");
+            ADD KEY nik (nik);");
 
         $this->forge->getConnection()->query("ALTER TABLE tb_presensi_siswa
             ADD PRIMARY KEY (id_presensi),
-            ADD KEY id_siswa (id_siswa),
+            ADD KEY nis (nis),
             ADD KEY id_kehadiran (id_kehadiran),
             ADD KEY id_kelas (id_kelas);");
 
         $this->forge->getConnection()->query("ALTER TABLE tb_siswa
-            ADD PRIMARY KEY (id_siswa),
+            ADD PRIMARY KEY (nis),
             ADD UNIQUE KEY unique_code (unique_code),
             ADD KEY id_kelas (id_kelas);");
-
-        $this->forge->getConnection()->query("ALTER TABLE tb_guru
-            MODIFY id_guru int(11) NOT NULL AUTO_INCREMENT;");
 
         $this->forge->getConnection()->query("ALTER TABLE tb_kehadiran
             MODIFY id_kehadiran int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;");
@@ -148,16 +143,13 @@ class CreateDB extends Migration
         $this->forge->getConnection()->query("ALTER TABLE tb_presensi_siswa
             MODIFY id_presensi int(11) NOT NULL AUTO_INCREMENT;");
 
-        $this->forge->getConnection()->query("ALTER TABLE tb_siswa
-            MODIFY id_siswa int(11) NOT NULL AUTO_INCREMENT;");
-
         $this->forge->getConnection()->query("ALTER TABLE tb_presensi_guru
             ADD CONSTRAINT tb_presensi_guru_ibfk_2 FOREIGN KEY (id_kehadiran) REFERENCES tb_kehadiran (id_kehadiran),
-            ADD CONSTRAINT tb_presensi_guru_ibfk_3 FOREIGN KEY (id_guru) REFERENCES tb_guru (id_guru) ON DELETE SET NULL;");
+            ADD CONSTRAINT tb_presensi_guru_ibfk_3 FOREIGN KEY (nik) REFERENCES tb_guru (nik) ON DELETE CASCADE;");
 
         $this->forge->getConnection()->query("ALTER TABLE tb_presensi_siswa
             ADD CONSTRAINT tb_presensi_siswa_ibfk_2 FOREIGN KEY (id_kehadiran) REFERENCES tb_kehadiran (id_kehadiran),
-            ADD CONSTRAINT tb_presensi_siswa_ibfk_3 FOREIGN KEY (id_siswa) REFERENCES tb_siswa (id_siswa) ON DELETE CASCADE,
+            ADD CONSTRAINT tb_presensi_siswa_ibfk_3 FOREIGN KEY (nis) REFERENCES tb_siswa (nis) ON DELETE CASCADE,
             ADD CONSTRAINT tb_presensi_siswa_ibfk_4 FOREIGN KEY (id_kelas) REFERENCES tb_kelas (id_kelas) ON DELETE SET NULL ON UPDATE CASCADE;");
 
         $this->forge->getConnection()->query("ALTER TABLE tb_siswa

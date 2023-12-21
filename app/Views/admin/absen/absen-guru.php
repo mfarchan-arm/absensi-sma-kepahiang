@@ -107,13 +107,13 @@
       });
    }
 
-   function getDataKehadiran(idPresensi, idGuru) {
+   function getDataKehadiran(idPresensi, nik) {
       jQuery.ajax({
          url: "<?= base_url('/admin/absen-guru/kehadiran'); ?>",
          type: 'post',
          data: {
             'id_presensi': idPresensi,
-            'id_guru': idGuru
+            'nik': nik
          },
          success: function(response, status, xhr) {
             // console.log(status);

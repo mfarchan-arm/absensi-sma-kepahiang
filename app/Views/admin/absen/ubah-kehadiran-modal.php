@@ -2,8 +2,8 @@
    <div class="container-fluid">
       <form id="formUbah">
 
-         <input type="hidden" name="id_siswa" value="<?= $data['id_siswa'] ?? ''; ?>">
-         <input type="hidden" name="id_guru" value="<?= $data['id_guru'] ?? ''; ?>">
+         <input type="hidden" name="nis" value="<?= $data['nis'] ?? ''; ?>">
+         <input type="hidden" name="nik" value="<?= $data['nik'] ?? ''; ?>">
          <input type="hidden" name="id_kelas" value="<?= $data['id_kelas'] ?? ''; ?>">
 
          <label for="kehadiran">Kehadiran</label>

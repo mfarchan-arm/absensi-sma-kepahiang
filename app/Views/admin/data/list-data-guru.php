@@ -21,11 +21,11 @@
                   <td><?= $value['no_hp']; ?></td>
                   <td><?= $value['alamat']; ?></td>
                   <td>
-                     <a href="<?= base_url('admin/guru/edit/' . $value['id_guru']); ?>" type="button" class="btn btn-success p-2" id="<?= $value['nik']; ?>">
+                     <a href="<?= base_url('admin/guru/edit/' . $value['nik']); ?>" type="button" class="btn btn-success p-2" id="<?= $value['nik']; ?>">
                         <i class="material-icons">edit</i>
                         Edit
                      </a>
-                     <form action="<?= base_url('admin/guru/delete/' . $value['id_guru']); ?>" method="post" class="d-inline">
+                     <form action="<?= base_url('admin/guru/delete/' . $value['nik']); ?>" method="post" class="d-inline">
                         <?= csrf_field(); ?>
                         <input type="hidden" name="_method" value="DELETE">
                         <button onclick="return confirm('Konfirmasi untuk menghapus data');" type="submit" class="btn btn-danger p-2" id="<?= $value['nik']; ?>">

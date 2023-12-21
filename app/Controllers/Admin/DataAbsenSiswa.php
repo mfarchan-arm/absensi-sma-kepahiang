@@ -73,12 +73,12 @@ class DataAbsenSiswa extends BaseController
    public function ambilKehadiran()
    {
       $idPresensi = $this->request->getVar('id_presensi');
-      $idSiswa = $this->request->getVar('id_siswa');
+      $nis = $this->request->getVar('nis');
 
       $data = [
          'presensi' => $this->presensiSiswa->getPresensiById($idPresensi),
          'listKehadiran' => $this->kehadiranModel->getAllKehadiran(),
-         'data' => $this->siswaModel->getSiswaById($idSiswa)
+         'data' => $this->siswaModel->getSiswaById($nis)
       ];
 
       return view('admin/absen/ubah-kehadiran-modal', $data);
@@ -88,18 +88,18 @@ class DataAbsenSiswa extends BaseController
    {
       // ambil variabel POST
       $idKehadiran = $this->request->getVar('id_kehadiran');
-      $idSiswa = $this->request->getVar('id_siswa');
+      $nis = $this->request->getVar('nis');
       $idKelas = $this->request->getVar('id_kelas');
       $tanggal = $this->request->getVar('tanggal');
       $jamMasuk = $this->request->getVar('jam_masuk');
       $jamKeluar = $this->request->getVar('jam_keluar');
       $keterangan = $this->request->getVar('keterangan');
 
-      $cek = $this->presensiSiswa->cekAbsen($idSiswa, $tanggal);
+      $cek = $this->presensiSiswa->cekAbsen($nis, $tanggal);
 
       $result = $this->presensiSiswa->updatePresensi(
          $cek == false ? NULL : $cek,
-         $idSiswa,
+         $nis,
          $idKelas,
          $tanggal,
          $idKehadiran,
@@ -108,7 +108,7 @@ class DataAbsenSiswa extends BaseController
          $keterangan
       );
 
-      $response['nama_siswa'] = $this->siswaModel->getSiswaById($idSiswa)['nama_siswa'];
+      $response['nama_siswa'] = $this->siswaModel->getSiswaById($nis)['nama_siswa'];
 
       if ($result) {
          $response['status'] = TRUE;

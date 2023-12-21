@@ -35,17 +35,17 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <label for="idJurusan">Jurusan</label>
-                  <select class="custom-select <?= $validation->getError('idJurusan') ? 'is-invalid' : ''; ?>" id="idJurusan" name="idJurusan">
-                    <option value="">--Pilih idJurusan--</option>
+                  <label for="jurusan">Jurusan</label>
+                  <select class="custom-select <?= $validation->getError('jurusan') ? 'is-invalid' : ''; ?>" id="jurusan" name="jurusan">
+                    <option value="">--Pilih jurusan--</option>
                     <?php foreach ($jurusan as $value) : ?>
-                      <option value="<?= $value['id']; ?>" <?= old('idJurusan') ?? $oldInput['idJurusan'] ?? $value['id'] == $data['id_jurusan'] ? 'selected' : ''; ?>>
+                      <option value="<?= $value['jurusan']; ?>" <?= old('jurusan') ?? $oldInput['jurusan'] ?? $value['jurusan'] == $data['jurusan'] ? 'selected' : ''; ?>>
                         <?= $value['jurusan']; ?>
                       </option>
                     <?php endforeach; ?>
                   </select>
                   <div class="invalid-feedback">
-                    <?= $validation->getError('idJurusan'); ?>
+                    <?= $validation->getError('jurusan'); ?>
                   </div>
                 </div>
               </div>

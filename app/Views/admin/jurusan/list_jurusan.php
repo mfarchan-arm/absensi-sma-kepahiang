@@ -13,14 +13,14 @@
             <td><?= $i; ?></td>
             <td><?= $value['jurusan']; ?></td>
             <td>
-              <a href="<?= base_url('admin/jurusan/' . $value['id'] . '/edit'); ?>" type="button" class="btn btn-primary p-2" id="<?= $value['id']; ?>">
+              <a href="<?= base_url('admin/jurusan/' . $value['jurusan'] . '/edit'); ?>" type="button" class="btn btn-primary p-2" id="<?= $value['jurusan']; ?>">
                 <i class="material-icons">edit</i>
                 Edit
               </a>
-              <form action="<?= base_url('admin/jurusan/' . $value['id']); ?>" method="post" class="d-inline">
+              <form action="<?= base_url('admin/jurusan/' . $value['jurusan']); ?>" method="post" class="d-inline">
                 <?= csrf_field(); ?>
                 <input type="hidden" name="_method" value="DELETE">
-                <button onclick="return confirm('Konfirmasi untuk menghapus data');" type="submit" class="btn btn-danger p-2" id="<?= $value['id']; ?>">
+                <button onclick="return confirm('Konfirmasi untuk menghapus data');" type="submit" class="btn btn-danger p-2" id="<?= $value['jurusan']; ?>">
                   <i class="material-icons">delete_forever</i>
                   Delete
                 </button>

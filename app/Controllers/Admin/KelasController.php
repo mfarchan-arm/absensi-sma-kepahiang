@@ -42,7 +42,7 @@ class KelasController extends ResourceController
     public function show($id = null)
     {
         $result = $this->kelasModel
-            ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'LEFT')
+            ->join('tb_jurusan', 'tb_kelas.jurusan = tb_jurusan.jurusan', 'LEFT')
             ->findAll();
 
         $data = [
@@ -81,8 +81,8 @@ class KelasController extends ResourceController
             'kelas' => [
                 'rules' => 'required|max_length[32]',
             ],
-            'idJurusan' => [
-                'rules' => 'required|numeric',
+            'jurusan' => [
+                'rules' => 'required',
             ],
         ])) {
             $jurusan = $this->jurusanModel->findAll();
@@ -99,9 +99,9 @@ class KelasController extends ResourceController
 
         // ambil variabel POST
         $kelas = $this->request->getVar('kelas');
-        $idJurusan = $this->request->getVar('idJurusan');
+        $jurusan = $this->request->getVar('jurusan');
 
-        $result = $this->kelasModel->tambahKelas($kelas, $idJurusan);
+        $result = $this->kelasModel->tambahKelas($kelas, $jurusan);
 
         if ($result) {
             session()->setFlashdata([
@@ -153,8 +153,8 @@ class KelasController extends ResourceController
             'kelas' => [
                 'rules' => 'required|max_length[32]',
             ],
-            'idJurusan' => [
-                'rules' => 'required|numeric',
+            'jurusan' => [
+                'rules' => 'required',
             ],
         ])) {
             $jurusan = $this->jurusanModel->findAll();
@@ -178,11 +178,11 @@ class KelasController extends ResourceController
 
         // ambil variabel POST
         $kelas = $this->request->getRawInputVar('kelas');
-        $idJurusan = $this->request->getRawInputVar('idJurusan');
+        $jurusan = $this->request->getRawInputVar('jurusan');
 
         $result = $this->kelasModel->update($id, [
             'kelas' => $kelas,
-            'id_jurusan' => $idJurusan
+            'jurusan' => $jurusan
         ]);
 
         if ($result) {
